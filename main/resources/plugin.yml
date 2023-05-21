@@ -1,0 +1,11 @@
+name: Chunk
+version: '${project.version}'
+main: busch.chunk.Chunk
+api-version: 1.19
+commands:
+  start:
+    description: Get a chunk.
+  chunk:
+    description: Teleport back to your chunk.
+  rc:
+    description: Reload the chunk config.
