@@ -12,7 +12,6 @@ public class Chunk extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // Register the StartCommand class as a command executor
         getCommand("start").setExecutor(new StartCommand(this));
         getCommand("chunk").setExecutor(new ChunkCommand(this));
         getCommand("rc").setExecutor(new ReloadConfig(this));
