@@ -37,7 +37,6 @@ public class ItemListener implements Listener {
 
     @EventHandler
     public void onPortalCreate(PortalCreateEvent event) {
-        // Check if the portal was created by a player
         if (event.getEntity() instanceof Player) {
             event.setCancelled(true);
         }
@@ -91,7 +90,6 @@ public class ItemListener implements Listener {
         int toChunkX = to.getChunk().getX();
         int toChunkZ = to.getChunk().getZ();
 
-        // Check if the player is in a chunk owned by them
         if (config.getBoolean("players." + uuid + ".started")) {
             int playerChunkX = config.getInt("players." + uuid + ".chunk.x");
             int playerChunkZ = config.getInt("players." + uuid + ".chunk.z");
@@ -100,8 +98,6 @@ public class ItemListener implements Listener {
                 return true;
             }
         }
-
-        // Check if the player is in a chunk owned by another player
         for (String key : config.getConfigurationSection("players").getKeys(false)) {
             UUID otherUuid = UUID.fromString(key);
             if (!otherUuid.equals(uuid) && config.getBoolean("players." + key + ".started")) {
@@ -113,8 +109,6 @@ public class ItemListener implements Listener {
                 }
             }
         }
-
-        // Player is not in a valid chunk
         return false;
     }
 }
