@@ -39,11 +39,8 @@ public class ChunkListener implements Listener {
         FileConfiguration config = plugin.getConfig();
         Location to = event.getTo();
 
-        // Check if the player has a chunk assigned in the config
         if (config.contains("players." + player.getUniqueId())) {
-            // Check if the player is in a valid chunk
             if (!isValidChunk(player, to)) {
-                // Check if the player is OP
                 if (player.isOp()) {
                     return;
                 }
@@ -58,9 +55,7 @@ public class ChunkListener implements Listener {
         Player player = event.getPlayer();
         Location location = event.getBlock().getLocation();
 
-        // Check if the player is in a valid chunk
         if (!isValidChunk(player, location)) {
-            // Check if the player is OP
             if (player.isOp()) {
                 return;
             }
@@ -74,9 +69,7 @@ public class ChunkListener implements Listener {
         Player player = event.getPlayer();
         Location location = event.getBlock().getLocation();
 
-        // Check if the player is in a valid chunk
         if (!isValidChunk(player, location)) {
-            // Check if the player is OP
             if (player.isOp()) {
                 return;
             }
@@ -102,7 +95,6 @@ public class ChunkListener implements Listener {
         int toChunkX = to.getChunk().getX();
         int toChunkZ = to.getChunk().getZ();
 
-        // Check if the player is in a chunk owned by them
         if (config.getBoolean("players." + uuid + ".started")) {
             int playerChunkX = config.getInt("players." + uuid + ".chunk.x");
             int playerChunkZ = config.getInt("players." + uuid + ".chunk.z");
@@ -112,7 +104,6 @@ public class ChunkListener implements Listener {
             }
         }
 
-        // Check if the player is in a chunk owned by another player
         for (String key : playersSection.getKeys(false)) {
             UUID otherUuid = UUID.fromString(key);
             if (!otherUuid.equals(uuid) && config.getBoolean("players." + key + ".started")) {
@@ -125,7 +116,6 @@ public class ChunkListener implements Listener {
             }
         }
 
-        // Player is not in a valid chunk
         return false;
     }
 }
