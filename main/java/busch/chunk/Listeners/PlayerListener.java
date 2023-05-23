@@ -36,7 +36,6 @@ public class PlayerListener implements Listener {
         if (started) {
             welcomeMessage = ChatColor.GRAY + "[C]" + " " + ChatColor.GREEN + "Welcome back, " + player.getName() + "! You are being teleported to your chunk...";
             player.sendMessage(ChatColor.GREEN + welcomeMessage);
-            // Check if the player has a chunk assigned in the config
             if (config.contains("players." + playerId + ".chunk")) {
                 int chunkX = config.getInt("players." + playerId + ".chunk.x");
                 int chunkZ = config.getInt("players." + playerId + ".chunk.z");
@@ -64,7 +63,6 @@ public class PlayerListener implements Listener {
         Player player = event.getPlayer();
         FileConfiguration config = plugin.getConfig();
         UUID playerId = player.getUniqueId();
-        // Check if the player has a chunk assigned in the config
         if (config.contains("players." + playerId + ".chunk")) {
             int chunkX = config.getInt("players." + playerId + ".chunk.x");
             int chunkZ = config.getInt("players." + playerId + ".chunk.z");
@@ -77,10 +75,8 @@ public class PlayerListener implements Listener {
             Chunk chunk = world.getChunkAt(chunkX, chunkZ);
             int highestYInCenter = world.getHighestBlockYAt(chunkX * 16 + 8, chunkZ * 16 + 8);
             Location highestBlockLocation = new Location(world, centerX, highestYInCenter, centerZ);
-            // Teleport the player to the center of the chunk
             player.teleport(centerLocation);
-            // Teleport the player to the highest non-air block in the center of the chunk
-            Bukkit.getScheduler().runTaskLater(plugin, () -> player.teleport(highestBlockLocation), 1); // Delay teleportation by 1 tick
+            Bukkit.getScheduler().runTaskLater(plugin, () -> player.teleport(highestBlockLocation), 1);
             player.sendMessage(ChatColor.GRAY + "[C]" + " " + ChatColor.GREEN + "You have been automatically teleported to your chunk.");
         }
     }
@@ -90,7 +86,6 @@ public class PlayerListener implements Listener {
         Player player = event.getPlayer();
         FileConfiguration config = plugin.getConfig();
         if (!config.contains("players." + player.getUniqueId())) {
-            // Player does not have a chunk assigned in the config, prevent block break
             event.setCancelled(true);
             player.sendMessage(ChatColor.GRAY + "[C]" + " " + ChatColor.RED + "You can't break blocks without a chunk assigned in the config. Use /start.");
         }
@@ -101,7 +96,6 @@ public class PlayerListener implements Listener {
         Player player = event.getPlayer();
         FileConfiguration config = plugin.getConfig();
         if (!config.contains("players." + player.getUniqueId())) {
-            // Player does not have a chunk assigned in the config, prevent block place
             event.setCancelled(true);
             player.sendMessage(ChatColor.GRAY + "[C]" + " " + ChatColor.RED + "You can't break blocks without a chunk assigned in the config. Use /start.");
         }
@@ -112,7 +106,6 @@ public class PlayerListener implements Listener {
         Player player = event.getPlayer();
         FileConfiguration config = plugin.getConfig();
         if (!config.contains("players." + player.getUniqueId())) {
-            // Player does not have a chunk assigned in the config, prevent interaction
             event.setCancelled(true);
             player.sendMessage(ChatColor.GRAY + "[C]" + " " + ChatColor.RED + "You can't interact with items without a chunk assigned in the config. Use /start.");
         }
@@ -123,7 +116,6 @@ public class PlayerListener implements Listener {
         Player player = event.getPlayer();
         FileConfiguration config = plugin.getConfig();
         if (!config.contains("players." + player.getUniqueId())) {
-            // Player does not have a chunk assigned in the config, prevent item pickup
             event.setCancelled(true);
             player.sendMessage(ChatColor.GRAY + "[C]" + " " + ChatColor.RED + "You can't pick-up items without a chunk assigned in the config. Use /start.");
         }
@@ -135,7 +127,6 @@ public class PlayerListener implements Listener {
             Player player = (Player) event.getEntity();
             FileConfiguration config = plugin.getConfig();
             if (!config.contains("players." + player.getUniqueId())) {
-                // Player does not have a chunk assigned in the config, prevent damage
                 event.setCancelled(true);
             }
         }
