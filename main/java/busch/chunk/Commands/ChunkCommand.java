@@ -31,7 +31,6 @@ public class ChunkCommand implements CommandExecutor {
         UUID uuid = player.getUniqueId();
         FileConfiguration config = plugin.getConfig();
 
-        // Check if the player has started
         if (!config.getBoolean("players." + uuid + ".started")) {
             player.sendMessage(ChatColor.GRAY + "[C] " + ChatColor.RED + "Do /start before you can use this command.");
             return true;
