@@ -31,13 +31,11 @@ public class StartCommand implements CommandExecutor {
                 UUID uuid = player.getUniqueId();
                 FileConfiguration config = plugin.getConfig();
 
-                // Check if the player has already started
                 if (config.getBoolean("players." + uuid + ".started")) {
                     player.sendMessage(ChatColor.GRAY + "[C]" + " " + ChatColor.RED + "You already have a chunk.");
                     return true;
                 }
 
-                // Generate a random chunk
                 Chunk chunk = findSuitableChunk(player.getWorld(), config);
 
                 if (chunk == null) {
@@ -49,23 +47,17 @@ public class StartCommand implements CommandExecutor {
                 int centerZ = chunk.getZ() * 16 + 8;
                 int highestYInCenter = player.getWorld().getHighestBlockYAt(chunk.getBlock(8, 0, 8).getLocation());
 
-                // Save the chunk coordinates to the config
                 config.set("players." + uuid + ".chunk.x", chunk.getX());
                 config.set("players." + uuid + ".chunk.z", chunk.getZ());
 
-                // Save the center and highest block coordinates of the chunk
                 config.set("players." + uuid + ".chunk.center.x", centerX);
                 config.set("players." + uuid + ".chunk.center.y", highestYInCenter);
                 config.set("players." + uuid + ".chunk.center.z", centerZ);
                 config.set("players." + uuid + ".chunk.highestY", highestYInCenter);
 
-                // Set the player's "started" status to true
                 config.set("players." + uuid + ".started", true);
-
-                // Save the config file
                 plugin.saveConfig();
 
-                // Teleport the player to the center of the chunk
                 Location location = new Location(player.getWorld(), centerX, highestYInCenter, centerZ);
                 player.teleport(location);
 
@@ -80,7 +72,7 @@ public class StartCommand implements CommandExecutor {
     }
 
     private Chunk findSuitableChunk(World world, FileConfiguration config) {
-        int maxAttempts = 100; // Maximum number of attempts to find a suitable chunk
+        int maxAttempts = 100;
         int attempts = 0;
 
         while (attempts < maxAttempts) {
@@ -100,7 +92,7 @@ public class StartCommand implements CommandExecutor {
                             Material blockMaterial = world.getBlockAt(chunk.getBlock(x, y, z).getLocation()).getType();
 
                             if (blockMaterial == Material.WATER || blockMaterial == Material.LEGACY_STATIONARY_WATER) {
-                                if (y > 55) { // Check if the water block is above Y level 55
+                                if (y > 55) {
                                     hasWater = true;
                                     break;
                                 }
@@ -129,7 +121,6 @@ public class StartCommand implements CommandExecutor {
     }
 
     private int getRandomCoordinate() {
-        // Generate a random coordinate within a reasonable range
         return ThreadLocalRandom.current().nextInt(-500000, 500000);
     }
 
